@@ -3,13 +3,18 @@
 <head> 
     <title>Geolocation App</title>
     <link rel="stylesheet" href="Jogging_App_StyleSheet.css">
+    <script src="Jogging_App_JS.js"></script>
     </head>
     <body>
         <p id="coords_display"></p>
-        <div id="mapDiv" style="width: 600px; height: 700px;"></div>
-        <button id="get_coords_button" onclick="getLocation()">Get coords</button> 
-        <button id="center_map_button" onclick="getLocation()">Center map</button>
-        <script src="Jogging_App_JS.js"></script>
+        <div>
+            <div class = "mapDiv" id="mapDiv" style="height: 700px; height: 600px"></div>
+            <div class = "button">
+                <button class = "button" id="get_coords_button" onclick="getLocation()">Get coords</button> 
+                <button class = "button" id="center_map_button" onclick="centerMap()">Center map</button>
+            </div>
+            
+        </div>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEmGm-PIIFijbgz06Zem6kyoH9HOxJQFM&callback=initMap&v=weekly" defer>
         </script>
     </body>

@@ -33,5 +33,6 @@ function initMap(position) {
 }
 
 function centerMap(position) {
-     map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+    getLocation();
+     document.getElementById("mapDiv").setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
 }
