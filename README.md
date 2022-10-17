@@ -1,2 +1,1 @@
-# JoggingApp-example
-CS IA
+# JoggingApp-example 
