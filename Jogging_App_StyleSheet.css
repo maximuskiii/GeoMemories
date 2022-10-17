@@ -11,3 +11,17 @@ body{
 #get_coords_button{
     justify-content: center;
 }
+
+.mapDiv{
+    justify-self: center;
+    margin: auto;
+    width: 60%;
+    width: 600px; 
+    height: 800px;
+}
+
+.button{
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
