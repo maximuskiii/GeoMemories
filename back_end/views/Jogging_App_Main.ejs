@@ -1,0 +1,37 @@
+<!DOCTYPE html> 
+<html>
+<head> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Geo-Memories</title>
+    <link rel="stylesheet" href="Jogging_App_StyleSheet.css">
+    <script src="Jogging_App_JS.js" defer></script>
+    </head>
+    <body>
+        <div>
+            <div class = "mapDiv" id="mapDiv" style="height: 700px; height: 600px"></div>
+            <div id="form-box">
+                <div class = "button">
+                    <button class = "button" id="getdata">Update Client Side</button> 
+                    <button class = "button" id="delAll">Delete All</button>
+                </div>
+                <div id="form">
+                    <form>
+                        <label for="title">Title:</label>
+                        <input type="text" id="title"><br>
+                        <label for="text-content">Message</label>
+                        <input type="text" id="text-content"><br>
+                    </form>
+                    <button class="button" id="submitMemory">Add Memory</button>
+                </div>
+                <div id="geoMList"><br>
+                    <td><label>Geo-Memories</label></td>
+                    <td>
+                        <ul id="geoList"></ul>
+                    </td>
+                </div>
+            </div>
+        </div>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEmGm-PIIFijbgz06Zem6kyoH9HOxJQFM&callback=initMap&v=weekly" defer>
+        </script>
+    </body>
+</html> 

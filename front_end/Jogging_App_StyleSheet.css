@@ -1,0 +1,41 @@
+body{
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: darkgrey;
+    align-items: center;
+}
+
+#get_coords_button{
+    justify-content: center;
+}
+
+
+#form-box{
+    height: 300px;
+}
+
+#geoMList{
+    background-color: grey;
+}
+#form{
+    margin: 10px;
+    padding: 10px;
+    background-color: grey;
+}
+
+.mapDiv{
+    justify-self: center; 
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
+}
+
+.button{
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
