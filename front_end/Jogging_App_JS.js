@@ -5,8 +5,6 @@ let lat = null;
 let lng = null;
 let titleValue = null;
 let messageValue = null;
-let tempGeoMList = "";
-
 
 function getLocation() {
     if(navigator.geolocation = Geolocation) {
@@ -28,6 +26,8 @@ function updateMap(position) {
             lng: position.coords.longitude
         })
     }
+    lat = position.coords.latitude;
+    lng = position.coords.longitude;
 }
 
 function initMap(position) {
@@ -85,17 +85,20 @@ function getValue() {
 //button for adding a new memory, sends a post request
 document.querySelector('#submitMemory').addEventListener('click', async e => {
     getValue();
-    addGeoMToList(messageValue);
+    //addGeoMToList(messageValue);
     console.log(`${titleValue}, ${messageValue}`)
     console.log("addData");
     const result = await sendJson({
-        command: "create-user",
+        command: "create-geom",
         title: titleValue, 
         text: messageValue,
         lat: lat,
         lng: lng
     })
+    console.log("Submit result " + result)
+    updateMemoryList()
 })
+
 
 //gets and updates coordinates
 function getCoords(position){
@@ -103,49 +106,64 @@ function getCoords(position){
     lng = `${position.coords.longitude}`
 }
 
-//print db (becoming print line)
-function printDb(result) {
-    let testp = document.getElementById('testp');
-    for (let item of result) {
-        testp.innerHTML += `<div> ${item.title} ${item.text} ${item.createdOn} </div>`
-    }
-}
 
 //delete all data
 document.querySelector('#delAll').addEventListener('click', async e => {
     console.log("delAll")
     const result = await sendJson({
-        command: "dell-all"
+        command: "del-all"
     })
+    updateMemoryList()
 })
 
 //get Data
-document.querySelector('#getdata').addEventListener('click', async e => {
-    console.log("getData")
-    const result = await sendJson({
-        command: "get-all-data"
+document.querySelector('#center').addEventListener('click', async e => {
+    console.log("Centering Map")
+    map.setCenter({
+        lat: lat,
+        lng: lng 
     })
-    //console.log(result)
-    printDb(result)
 })
 
 function test(){
     console.log("this is a test")
 }
+
 //skill list 
-let i = 0; 
-function addGeoMToList() {
-    let currentGeom = messageValue; 
-    if(currentGeom != ""){
-        tempGeoMList += "<li><span name='geoMItem' id='geoMItem"+ i +"'>" + 
-        messageValue + "</span>" + "<a onclick='removeGeoM()'> Remove Geo-Memory </a></li>"
-        i++;
-        document.getElementById("geoList").innerHTML = tempGeoMList
+async function updateMemoryList() {
+    const memories = await sendJson({
+        command: "get-all-data"
+    })
+
+    let geoList = document.getElementById("geoList")
+    geoList.innerHTML = ""
+
+    for (let memory of memories) {
+        let li = document.createElement("li")
+        li.innerHTML = `<span name='geoMItem'>${memory.title} ${memory.text}</span>
+        <button onclick='removeGeoM("${memory.title}")'> Remove Geo-Memory </button>`
+        geoList.append(li)
     }
 }
 
+/*function addGeoMToList() {
+    let currentGeom = messageValue; 
+    if(currentGeom != ""){
+        tempGeoMList.push(messageValue)
+        updateMemoryList()
+    }
+}
+*/
+
 //function for removing an item from the client side list
-async function removeGeoM() {
+async function removeGeoM(title) {
+    const result = await sendJson({
+        command: "del-one",
+        title: title
+    })
+    updateMemoryList()
+}
+/*
     console.log("inside removeGeoM")
     tempGeoMList="";
     let Geos = document.querySelectorAll("#geoList li"), index, tab = [];
@@ -165,5 +183,9 @@ async function removeGeoM() {
             tab.splice(j,1)
         }
     }
-}
+*/
 
+
+window.addEventListener("load", event => {
+    updateMemoryList()
+})
