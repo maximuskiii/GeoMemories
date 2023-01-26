@@ -8,7 +8,7 @@
     </head>
     <body>
         <div>
-            <div class = "mapDiv" id="mapDiv" style="height: 700px; height: 600px"></div>
+            <div class = "mapDiv" id="mapDiv" style="width: 100%; height: 800px"></div>
             <div id="form-box">
                 <div class = "button">
                     <button class = "button" id="center">Center</button> 
@@ -18,15 +18,22 @@
                     <form>
                         <label for="title">Title:</label>
                         <input type="text" id="title"><br>
-                        <label for="text-content">Message</label>
+                        <label for="text-content">Message:</label>
                         <input type="text" id="text-content"><br>
+                        <label for="checkbox">Use draggable marker coordinates</label>
+                        <input type="checkbox" id="marker-coords"><br>
+                        <input type="file" id="file-input" name="file-input">
+                        <button class="button" id="file-button" onlick="document.getElementById('file-input').click()">Submit files</button>
                     </form>
                     <button class="button" id="submitMemory">Submit Memory</button>
                 </div>
                 <div id="geoMList"><br>
-                    <td><label>Geo-Memories</label></td>
+                    <td><label>Geo Memories</label></td>
                     <td>
-                        <ul id="geoList"></ul>
+                        <div id="flexContainer">
+                            
+                        </div>
+                        
                     </td>
                 </div>
             </div>

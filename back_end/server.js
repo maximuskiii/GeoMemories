@@ -23,7 +23,7 @@ app.use(express.static(__dirname));
 // Add endpoint
 app.get('/',(req, res) => {
     res.render("Jogging_App_Main.ejs")
-}) 
+})
 
 
 // Listen to server
