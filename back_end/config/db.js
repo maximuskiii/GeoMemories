@@ -20,15 +20,20 @@ export class Db {
    }
 
    async createGeoM(title, text, lat, lng) {
-    const geom1 = new GeoM({"title": title, "text": text, "lat_coord": lat, "lng_coord": lng})
-    console.log(geom1)
-        geom1.save()
-        return true 
+     const geom1 = new GeoM({"title": title, "text": text, "lat_coord": lat, "lng_coord": lng})
+     console.log(geom1)
+     await geom1.save()
+     return true 
    }
    
    async delAllGeoM() {
-        console.log("successful removal")
+        console.log("successful wipe")
         return await GeoM.deleteMany({})
+   }
+
+   async delOne(title) {
+        console.log("successful deletion")
+        return await GeoM.findOneAndDelete({"title": title});
    }
 
    async findGeoM() {
