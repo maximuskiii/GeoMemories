@@ -7,6 +7,20 @@ body{
     align-items: center;
 }
 
+h2{
+    text-align: left;
+    margin-top: 5px;
+    margin-bottom: 0px;
+}
+
+p{
+    margin: 0px;
+}
+
+#geom-postbox-title{
+    font-weight: bold;
+}
+
 #get_coords_button{
     justify-content: center;
 }
@@ -33,15 +47,32 @@ body{
     border-radius: 15px;
     font-family: Arial, Helvetica, sans-serif;
     background-color: #b3ccff;
-    height: 500px;
+    height: auto;
 }
 
 #flexContainer{
-    display: grid;
-    grid-template-columns: 200px, 200px, 200px;
-    height: 300px; 
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    height: auto; 
     background-color: aliceblue;
     border-radius: 15px;
+    flex-wrap: wrap;
+}
+
+.memory-post{
+    align-items: left;
+    text-align: left;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 230px;
+    height: 300px;
+    margin: 5px;
+    background-color: #99bbff ;
+    border-radius: 15px;
+    border-color: black;
 }
 
 .mapDiv{
