@@ -178,14 +178,19 @@ async function updateMemoryList() {
         command: "get-all-data"
     })
 
-    let flex_container = document.getElementById("flexContainter");
-    flex_container.innerHTML = ""
+    let flex_container = document.getElementById("flexContainer");
+    console.log(flex_container)
+    flex_container.innerHTML = null
 
     for(let memory of memories) {
         let div = document.createElement("div")
-        div.innerHTML = `<div><h2>${memory.title}</h2><br><p>${memory.text}</p><br>
-        <button onclick='removeGeoM("${memory.title}")'> Remove Geo-Memory</button><div>`
-        flex_container.appendc(div)
+        div.classList.add('memory-post')
+        //const h1 = 
+        div.innerHTML += `<h2>${memory.title}</h2><p>${memory.text}
+        <br>Lat:${memory.lat_coord} Lng:${memory.lng_coord} <br>Created on: ${memory.createdOn}</p>
+        <button onclick='removeGeoM("${memory.title}")'> Remove Geo-Memory</button>`
+        console.log(div)
+        flex_container.append(div)
     }
     /*
     <ul id="geoList"></ul>
