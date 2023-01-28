@@ -1,6 +1,8 @@
 //watches location and repeats requests
 // let the user set their position with the cursor and make a memory there (essentially a memoy board)
 //test test te
+// maybe add marker array as the default marker addition/sorting system.
+//comment out previous solution temporarily
 let map = null;
 let lat = null;
 let lng = null;
@@ -10,6 +12,8 @@ let marker = null;
 let marker_lat = null;
 let marker_lng = null;
 let result = null; 
+var markerarray = [];
+NodeList.prototype.indexOf = Array.prototype.indexOf
 
 function getMarkerCoords() {
     marker_lat = marker.getPosition().lat()
@@ -38,6 +42,7 @@ function updateMap(position) {
             lat: position.coords.latitude,
             lng: position.coords.longitude
         })
+        map.setZoom(15);
     }
 }
 
@@ -91,16 +96,6 @@ async function sendJson(data) {
     return await response.json()
 }
 
-/*async function readDb(){
-    const response = await window.fetch('http://localhost:5000/geos/server') 
-    
-}*/
-
-/*document.querySelector('#get_coords_button').addEventListener('click', async e =>{
-    console.log("get-coords-works")
-    console.log(await readDb())
-})*/
-
 //gets the values from the form and clears the form
 function getValue() {
     titleValue = document.getElementById('title').value;
@@ -137,15 +132,17 @@ document.querySelector('#submitMemory').addEventListener('click', async e => {
     }
 
     updateMemoryList()
+    marker.setPosition({
+        lat: lat - 0.0001,
+        lng: lng - 0.0001
+    })
 })
 
-
-//gets and updates coordinates
+//gets and updates coordinate
 function getCoords(position){
     lat = `${position.coords.latitude}`
     lng = `${position.coords.longitude}`
 }
-
 
 //delete all data
 document.querySelector('#delAll').addEventListener('click', async e => {
@@ -159,10 +156,10 @@ document.querySelector('#delAll').addEventListener('click', async e => {
 
 //get Data
 document.querySelector('#center').addEventListener('click', async e => {
-    console.log("Centering Map")
+    console.log(Number(lat), Number(lng))
     map.setCenter({
-        lat: lat,
-        lng: lng 
+        lat: Number(lat),
+        lng: Number(lng) 
     })
 })
 
@@ -174,6 +171,10 @@ function test(){
 // finish this asap for a nice UI
 
 async function updateMemoryList() {
+    for(let marker of markerarray) {
+        marker.setMap(null)
+    }
+    markerarray = []
     const memories = await sendJson({
         command: "get-all-data"
     })
@@ -188,23 +189,70 @@ async function updateMemoryList() {
         //const h1 = 
         div.innerHTML += `<h2>${memory.title}</h2><p>${memory.text}
         <br>Lat:${memory.lat_coord} Lng:${memory.lng_coord} <br>Created on: ${memory.createdOn}</p>
-        <button onclick='removeGeoM("${memory.title}")'> Remove Geo-Memory</button>`
+        <button class="remover" onclick='removeGeoM("${memory.title}")'> Remove Geo-Memory</button>`
         console.log(div)
         flex_container.append(div)
     }
-    /*
-    <ul id="geoList"></ul>
-    let geoList = document.getElementById("geoList")
-    geoList.innerHTML = ""
 
-    for (let memory of memories) {
-        let li = document.createElement("li")
-        li.innerHTML = `<span name='geoMItem'>${memory.title} ${memory.text}</span>
-        <button onclick='removeGeoM("${memory.title}")'> Remove Geo-Memory </button>`
-        geoList.append(li)
+    for(let memory of memories) {
+        console.log(Number(memory.lat_coord))
+        const content = `<div id="content">` +
+        `<b>${memory.title}</b><br>${memory.text}<br>Lat: ${memory.lat_coord}, Lng: ${memory.lng_coord}<br>`+
+        `Created on: ${memory.createdOn}<div id="removebutton"><button class="remover" onclick='removeGeoM("${memory.title}")'>Remove GeoM</button></div></div>`
+        const infoWindow = new google.maps.InfoWindow({
+            content: content,
+            arialabel: "test"
+        })
+        console.log(memories.indexOf(memory))
+
+        markerarray[memories.indexOf(memory)] = new google.maps.Marker({
+            title: memory.title,
+            position: {lat: Number(memory.lat_coord), lng: Number(memory.lng_coord)},  
+            icon: {
+                url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+            }
+        })
+        markerarray[memories.indexOf(memory)].addListener("click", () => {
+            infoWindow.open({
+                anchor: markerarray[memories.indexOf(memory)],
+                map: map,
+            })
+        })
+        for(let marker of markerarray) {
+            marker.setMap(map)
+        }
+    }
+
+
+
+    /*for(let memory of memories) {
+        console.log(Number(memory.lat_coord))
+        const content = `<div id="content">` +
+        `${memory.title}<div id="removebutton"><button onclick='removeGeoM("${memory.title}")'>Remove GeoM</button></div></div>`
+        const infoWindow = new google.maps.InfoWindow({
+            content: content,
+            arialabel: "test"
+        })
+
+        const m1 = new google.maps.Marker({
+            title: memory.title,
+            position: {lat: Number(memory.lat_coord), lng: Number(memory.lng_coord)}, 
+            map: map, 
+            icon: {
+                url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+            }
+        })
+
+        //marker.setPosition({lat: Number(memory.lat_coord) - 0.001, lng: Number(memory.lng_coord)-0.001})
+
+        m1.addListener("click", () => {
+            infoWindow.open({
+                anchor: m1,
+                map: map,
+            })
+        })
     }*/
 }
-
 
 //function for removing an item from the client side list
 async function removeGeoM(title) {

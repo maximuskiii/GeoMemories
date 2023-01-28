@@ -7,6 +7,35 @@ body{
     align-items: center;
 }
 
+.remover{
+    border-radius: 10px;
+    background-color: azure;
+    border-color: azure;
+}
+#floatingPanel{
+    position: absolute;
+    top: 10px;
+    left: 45%;
+    z-index: 5;
+    padding: 5px;
+    text-align: center;
+    background-color: #80aaff;
+    border-radius: 15px;
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    scale: 1.3;
+    border-color: #80aaff;
+}
+
+.hover-button{
+    margin: 3px;
+    border-radius: 10px;
+    scale: 1;
+    background-color: azure;
+    border-color: azure;
+}
+
 h2{
     text-align: left;
     margin-top: 5px;
@@ -89,4 +118,6 @@ p{
     justify-content: center;
     align-items: center;
     border-radius: 5px;
+    background-color: azure;
+    border-color: azure;
 }
