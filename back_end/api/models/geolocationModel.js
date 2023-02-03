@@ -20,8 +20,12 @@ export const geolocationSchema = new Schema({
         type:String,
     }, 
 
+    img_src: {
+        type:String,
+    },
+
     createdOn: {
        type:Date,
        default:Date.now
-    }
+    }, 
 });

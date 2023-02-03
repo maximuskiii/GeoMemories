@@ -19,8 +19,8 @@ export class Db {
         console.log("Database connection established!");    
    }
 
-   async createGeoM(title, text, lat, lng) {
-     const geom1 = new GeoM({"title": title, "text": text, "lat_coord": lat, "lng_coord": lng})
+   async createGeoM(title, text, lat, lng, img_src) {
+     const geom1 = new GeoM({"title": title, "text": text, "lat_coord": lat, "lng_coord": lng, "img_src": img_src})
      console.log(geom1)
      await geom1.save()
      return true 
@@ -39,5 +39,21 @@ export class Db {
    async findGeoM() {
         console.log("finding geoM")
         return await GeoM.find({})
+   }
+
+   async updateGeoM(fetchTitle, title, text, lat, lng, img_src) {
+          console.log("updating GeoM")
+          const filter = {title: fetchTitle}
+          const update = {
+               title: title, 
+               text: text, 
+               lat_coord: lat, 
+               lng_coord: lng, 
+               img_src: img_src,
+          }
+          let doc = await GeoM.findOneAndUpdate(filter, update, {
+               returnDocument: true
+          })
+          console.log("completed update")
    }
 }

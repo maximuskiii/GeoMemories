@@ -7,10 +7,38 @@ body{
     align-items: center;
 }
 
+.img{
+    height: auto;
+    width: auto; 
+    display: block;
+    max-width: 320px;
+    max-height: 320px;
+    border-radius: 15px;
+}
 .remover{
     border-radius: 10px;
     background-color: azure;
     border-color: azure;
+}
+.post-content{
+    background-color: #b3ccff;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 5px;
+}
+
+.buttonHolder2{
+    margin: 5px
+}
+
+#submitMemory{
+    margin-right: 5px;
+}
+
+#buttonHolder{
+    display: flex;
+    flex-direction: row;
+    margin-top: 5px;
 }
 #floatingPanel{
     position: absolute;
@@ -56,12 +84,44 @@ p{
 
 
 #form-box{
-    height: 300px;
+    height: 350px;
 }
 
+#box{
+    border-radius: 15px;
+    background-color: #99bbff;
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    height: auto;
+    margin: 5px;
+    padding: 5px;
+}
+#display-image{
+    background-color: #99bbff;
+    border-radius: 15px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+
+}
+#instructions{
+    border-radius: 15px;
+    background-color: #b3ccff;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+    margin: 5px;
+    padding: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: small;
+}
 
 #form{
-    margin: 10px;
+    display: flex;
+    margin: 5px;
     padding: 10px;
     background-color: #b3ccff;
     border-radius: 15px;
@@ -86,6 +146,7 @@ p{
     height: auto; 
     background-color: aliceblue;
     border-radius: 15px;
+    margin-top: 5px;
     flex-wrap: wrap;
 }
 
@@ -96,12 +157,25 @@ p{
     padding-bottom: 0px;
     padding-left: 5px;
     padding-right: 5px;
-    width: 230px;
-    height: 300px;
+    width: 460px;
+    height: auto;
     margin: 5px;
     background-color: #99bbff ;
     border-radius: 15px;
     border-color: black;
+}
+
+.post-message{
+    background-color: #99bbff ;
+    border-radius: 15px;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    word-wrap: break-word;
+}
+
+.post-title{
+    margin-left: 10px;
 }
 
 .mapDiv{
