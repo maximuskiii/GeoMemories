@@ -14,26 +14,44 @@
                 <button class = "hover-button" id="delAll">Delete All</button>
             </div>
             <div id="form-box">
-                <div id="form">
-                    <form>
-                        <label for="title">Title:</label>
-                        <input type="text" id="title"><br>
-                        <label for="text-content">Message:</label>
-                        <input type="text" id="text-content"><br>
-                        <label for="checkbox">Use marker coordinates</label>
-                        <input type="checkbox" id="marker-coords"><br>
-                        <input type="file" id="file-input" name="file-input">
-                        <button class="button" id="file-button" onlick="document.getElementById('file-input').click()">Submit files</button>
-                    </form>
-                    <button class="button" id="submitMemory">Submit Memory</button>
+                <div id="box">
+                    <div id="form">
+                        <div>
+                            <form>
+                                <b>Create a GeoMemory</b><br>
+                                <label for="title">Title:</label>
+                                <input type="text" id="title"><br>
+                                <label for="text-content">Message:</label>
+                                <input type="text" id="text-content"><br>
+                                <label for="checkbox">Use marker coordinates</label>
+                                <input type="checkbox" id="marker-coords"><br>
+                                <input type="file" id="file-input" accept="image/png, image/jpg">
+                            </form>
+                            <div id="buttonHolder">
+                                <button class="button" id="submitMemory">Submit Memory</button>
+                                <button class="button" id="editMemory">Apply Edits</button>
+                            </div>
+                            
+                        </div>
+                        <div id="display-image">
+                        </div>
+                    </div>
+                    <div id="instructions">
+                        <p>
+                            <b>Instructions</b><br>
+                                - The red marker is for creating a GeoMemory at a location other than your current location. <br>
+                                - It can be dragged around by holding and moving the cursor. Upon letting go it will be placed at the position.<br>
+                                - To use the coordinates of the red marker for a GeoMemory check the checkbox<br>
+                                - The blue marker represents your location (on startup, the red marker may be covering the blue marker)<br>
+                                - To add an image, click on choose file and select an image (These can only be in .png and .jpg file formats)<br>
+                                - The image will appear in the preview box and then will be added to the GeoMemory upon submitting<br>
+                        </p>
+                    </div>
                 </div>
                 <div id="geoMList">
                     <td><label id="geom-postbox-title"><h2>Geo Memories</h2></label></td>
                     <td>
-                        <div id="flexContainer">
-                            
-                        </div>
-                        
+                        <div id="flexContainer"></div>
                     </td>
                 </div>
             </div>

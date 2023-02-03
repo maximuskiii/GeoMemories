@@ -3,6 +3,7 @@
 //test test te
 // maybe add marker array as the default marker addition/sorting system.
 //comment out previous solution temporarily
+//maybe fix aspect ratio things for images
 let map = null;
 let lat = null;
 let lng = null;
@@ -13,7 +14,108 @@ let marker_lat = null;
 let marker_lng = null;
 let result = null; 
 var markerarray = [];
+var img_src = null;
+var marker_colors = ["#3333ff", "#cc00ff", "#00cc00", "#ff3300", "#9999ff", "#ff9999", "#00cc66", "#cc9900", "#339933", "#6600ff"];
 NodeList.prototype.indexOf = Array.prototype.indexOf
+
+const input = document.querySelector('input[type="file"]')
+input.addEventListener('change', (e) => {
+    document.getElementById("display-image").innerHTML = ""
+    console.log(input.files)
+    const reader = new FileReader()
+    reader.onload = () => {
+        img_src = reader.result
+        const app_img = `<b>Image Preview</b><img src="${img_src}" width="120" height="120" style="border-radius: 15px">`
+        //img.src = reader.result
+        document.getElementById("display-image").innerHTML += app_img
+    }
+    reader.readAsDataURL(input.files[0])
+})
+
+/* async function updateGeoM(title, message, img_src, temp_lat, temp_lng) {
+        var temp_img_src = img_src;
+        var temp_lat_coord = temp_lat;
+        var temp_lng_coord = temp_lng;
+        document.getElementById('title').value = title;
+        document.getElementById('text-content').value = message;
+        const result = await sendJson({
+            command: "del-one", 
+            title: title,
+        })
+        updateMemoryList()
+        var new_title_value = document.getElementById('title').value
+        var new_message_value = document.getElementById('text-content').value
+        //myLatLng = {lat: Number(temp_lat_coord), lng: Number(temp_lng_coord)}
+        //marker.setPosition(myLatLng);
+        document.querySelector('#editMemory').addEventListener('click', async e => {
+            if(document.getElementById("marker-coords").checked == true) {
+                getMarkerCoords()
+                console.log("using marker coords")
+                const result = await sendJson({
+                    command: "create-geom",
+                    title: new_title_value, 
+                    text: new_message_value,
+                    lat: marker_lat,
+                    lng: marker_lng,
+                    img_src: img_src,
+                })
+            } else {
+                console.log("using position coords")
+                console.log(lat, lng)
+                result = await sendJson({
+                    command: "create-geom",
+                    title: new_title_value, 
+                    text: new_message_value,
+                    lat: lat,
+                    lng: lng,
+                    img_src: img_src,
+                })
+                
+                marker.setPosition({
+                    lat: lat - 0.0001,
+                    lng: lng - 0.0001
+                })
+            }
+            updateMemoryList()
+            document.getElementById('title').value = '';
+            document.getElementById('text-content').value = ''
+        })
+} */ 
+
+async function updateGeoM(title, message, temp_img_src, lat, lng) {
+    let u_title = title;
+    document.getElementById('title').value = title;
+    document.getElementById('text-content').value = message;
+    const app_img2 = `<b>Image Preview</b><img src="${temp_img_src}" width="120" height="120" style="border-radius: 15px">`
+    document.getElementById("display-image").innerHTML += app_img2
+    document.querySelector("#editMemory").addEventListener("click", async e => {
+        if(document.getElementById("marker-coords").checked == true) {
+            getMarkerCoords()
+            const result = await sendJson({
+                command: "update-one",
+                fetchTitle: u_title,
+                title: document.getElementById('title').value,
+                text: document.getElementById('text-content').value,
+                lat: marker_lat, 
+                lng: marker_lng, 
+                img_src: img_src
+            })
+            updateMemoryList()
+        } else {
+            const result = await sendJson({
+                command: "update-one", 
+                fetchTitle: u_title,
+                title: document.getElementById('title').value,
+                text: document.getElementById('text-content').value,
+                lat: lat, 
+                lng: lng, 
+                img_src: img_src
+            })
+            updateMemoryList()
+        }
+        
+    })
+}
 
 function getMarkerCoords() {
     marker_lat = marker.getPosition().lat()
@@ -62,15 +164,10 @@ function initMap(position) {
         position: {lat: position.coords.latitude, lng: position.coords.longitude},
         map: map,
         icon:{
-            path: 'm 12,2.4000002 c -2.7802903,0 -5.9650002,1.5099999 -5.9650002,5.8299998 0,1.74375 1.1549213,3.264465 2.3551945,4.025812 1.2002732,0.761348 2.4458987,0.763328 2.6273057,2.474813 L 12,24 12.9825,14.68 c 0.179732,-1.704939 1.425357,-1.665423 2.626049,-2.424188 C 16.809241,11.497047 17.965,9.94 17.965,8.23 17.965,3.9100001 14.78029,2.4000002 12,2.4000002 Z',
-            fillColor: '#00FF00',
-            fillOpacity: 1.0,
-            strokeColor: '#000000',
-            strokeWeight: 1,
-            scale: 2,
-            anchor: new google.maps.Point(12, 24),
+            url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
         },
-        draggable:false
+        draggable:false,
+        animation: google.maps.Animation.DROP
     })
 
     marker = new google.maps.Marker({ 
@@ -117,7 +214,8 @@ document.querySelector('#submitMemory').addEventListener('click', async e => {
             title: titleValue, 
             text: messageValue,
             lat: marker_lat,
-            lng: marker_lng
+            lng: marker_lng,
+            img_src:img_src,
         })
     } else {
         console.log("using position coords")
@@ -127,7 +225,8 @@ document.querySelector('#submitMemory').addEventListener('click', async e => {
             title: titleValue, 
             text: messageValue,
             lat: lat,
-            lng: lng
+            lng: lng,
+            img_src: img_src,
         })
     }
 
@@ -136,7 +235,11 @@ document.querySelector('#submitMemory').addEventListener('click', async e => {
         lat: lat - 0.0001,
         lng: lng - 0.0001
     })
+    img_src = null;
 })
+
+// ctrl k c
+// ctrl k u
 
 //gets and updates coordinate
 function getCoords(position){
@@ -161,14 +264,12 @@ document.querySelector('#center').addEventListener('click', async e => {
         lat: Number(lat),
         lng: Number(lng) 
     })
+    map.setZoom(15);
 })
 
 function test(){
     console.log("this is a test")
 }
-
-//skill list 
-// finish this asap for a nice UI
 
 async function updateMemoryList() {
     for(let marker of markerarray) {
@@ -184,20 +285,26 @@ async function updateMemoryList() {
     flex_container.innerHTML = null
 
     for(let memory of memories) {
+        let image = new Image()
+        image.src = memory.img_src
         let div = document.createElement("div")
         div.classList.add('memory-post')
-        //const h1 = 
-        div.innerHTML += `<h2>${memory.title}</h2><p>${memory.text}
-        <br>Lat:${memory.lat_coord} Lng:${memory.lng_coord} <br>Created on: ${memory.createdOn}</p>
-        <button class="remover" onclick='removeGeoM("${memory.title}")'> Remove Geo-Memory</button>`
+        //const h1 =
+        div.innerHTML += `<div class="post-title"><h2>${memory.title}</h2></div><div class="post-content"><img src="${image.src}" class="img">
+        <div class="post-message"><p>${memory.text}</p></div>
+        <p>Lat:${memory.lat_coord} Lng:${memory.lng_coord} <br>Created on: ${memory.createdOn}</p></div>
+        <div class="buttonHolder2"><button class="remover" onclick='removeGeoM("${memory.title}")'> Remove GeoMemory</button>
+        <button class="remover" onclick='updateGeoM("${memory.title}", "${memory.text}","${memory.img_src}","${memory.lat_coord}","${memory.lng_coord}")'> Update GeoMemory</button></div>`
         console.log(div)
         flex_container.append(div)
     }
 
     for(let memory of memories) {
         console.log(Number(memory.lat_coord))
+        let image = new Image()
+        image.src = memory.img_src
         const content = `<div id="content">` +
-        `<b>${memory.title}</b><br>${memory.text}<br>Lat: ${memory.lat_coord}, Lng: ${memory.lng_coord}<br>`+
+        `<b>${memory.title}</b><br><img src="${image.src}" class="img"><br>${memory.text}<br>Lat: ${memory.lat_coord}, Lng: ${memory.lng_coord}<br>`+
         `Created on: ${memory.createdOn}<div id="removebutton"><button class="remover" onclick='removeGeoM("${memory.title}")'>Remove GeoM</button></div></div>`
         const infoWindow = new google.maps.InfoWindow({
             content: content,
@@ -209,8 +316,15 @@ async function updateMemoryList() {
             title: memory.title,
             position: {lat: Number(memory.lat_coord), lng: Number(memory.lng_coord)},  
             icon: {
-                url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
-            }
+                path: "M-1.547 12l6.563-6.609-1.406-1.406-5.156 5.203-2.063-2.109-1.406 1.406zM0 0q2.906 0 4.945 2.039t2.039 4.945q0 1.453-0.727 3.328t-1.758 3.516-2.039 3.070-1.711 2.273l-0.75 0.797q-0.281-0.328-0.75-0.867t-1.688-2.156-2.133-3.141-1.664-3.445-0.75-3.375q0-2.906 2.039-4.945t4.945-2.039z",
+                fillColor: marker_colors[memories.indexOf(memory)],
+                fillOpacity: 0.8,
+                strokeWeight: 0,
+                rotation: 0,
+                scale: 2,
+                anchor: new google.maps.Point(0, 20),
+            },
+            animation: google.maps.Animation.DROP
         })
         markerarray[memories.indexOf(memory)].addListener("click", () => {
             infoWindow.open({
@@ -221,6 +335,10 @@ async function updateMemoryList() {
         for(let marker of markerarray) {
             marker.setMap(map)
         }
+        document.getElementById("display-image").innerHTML = ""
+        document.getElementById("file-input").value =""
+        document.getElementById('title').value = "";
+        document.getElementById('text-content').value = "";
     }
 
 

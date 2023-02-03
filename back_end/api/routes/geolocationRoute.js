@@ -25,8 +25,8 @@ export default function(app) {
         const db = new Db()
         db.connect()
         if (data.command == "create-geom") {
-            await db.createGeoM(data.title, data.text, data.lat, data.lng)
-            console.log(data.text)
+            await db.createGeoM(data.title, data.text, data.lat, data.lng, data.img_src)
+            console.log(data.text, data.img_src)
             res.send('"UPDATE OK FROM SERVER"')
         } else if (data.command == "get-all-data") {
             const result = await db.findGeoM()
@@ -39,7 +39,11 @@ export default function(app) {
             await db.delOne(data.title)
             console.log("succesful deletion")
             res.send('"UPDATE OK FROM SERVER"')
-        } else {
+        } else if(data.command =="update-one") {
+            console.log("updating")
+            await db.updateGeoM(data.fetchTitle, data.title, data.text, data.lat, data.lng, data.img_src)
+            res.send('"UPDATE OK FROM SERVER"')
+        }else{
             console.log("I don't know the command: " + data.command)
         }
     })
