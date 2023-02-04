@@ -148,7 +148,7 @@ body{
 }
 
 h2{
-    text-align: center;
+    text-align: left;
     margin-top: 5px;
     margin-bottom: 0px;
 }
@@ -164,6 +164,7 @@ p{
 #get_coords_button{
     justify-content: center;
 }
+
 
 #form-box{
     height: 350px;
@@ -193,7 +194,6 @@ p{
     padding: 5px;
     max-width: 453px;
 }
-
 #display-image{
     background-color: #99bbff;
     border-radius: 15px;
@@ -284,6 +284,7 @@ p{
     height: 100%;
     margin: 0;
     padding: 0;
+
 }
 
 .button{
