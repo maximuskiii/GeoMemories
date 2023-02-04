@@ -11,6 +11,46 @@ body{
     align-items: center;
 }
 
+.marker-infoWindow-extra{
+    margin-left: 18px;
+}
+
+.marker-infoWindow-title{
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.marker-infoWindow-message{
+    background-color: #b3ccff;
+    padding: 5px;
+    border-radius: 15px;
+}
+
+.marker-infoWindow-main{
+    border-radius: 15px;
+    margin:5px;
+    padding: 10px;
+    background-color:#71a0ff;
+}
+
+.content{
+    background-color: #99bbff;
+    border-radius: 15px;
+    padding:10px;
+}
+
+#form-title{
+    text-align: center;
+    margin: 5px;
+    margin-top: 0;
+}
+
+#title-label{
+    display: inline-block;
+    width: 27.5%;
+    text-align: left;
+}
+
 .collapsible{
     background-color: #eee;
     color: #444;
