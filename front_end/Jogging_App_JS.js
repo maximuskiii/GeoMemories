@@ -318,9 +318,9 @@ async function updateMemoryList() {
         console.log(Number(memory.lat_coord))
         let image = new Image()
         image.src = memory.img_src
-        const content = `<div id="content">` +
-        `<b>${memory.title}</b><br><img src="${image.src}" class="img"><br>${memory.text}<br>Lat: ${memory.lat_coord}, Lng: ${memory.lng_coord}<br>`+
-        `Created on: ${memory.createdOn}<div id="removebutton"><button class="remover" onclick='removeGeoM("${memory.title}")'>Remove GeoM</button><button class="remover" onclick='updateGeoM("${memory.title}", "${memory.text}","${memory.img_src}","${memory.lat_coord}","${memory.lng_coord}")'> Edit GeoMemory</button></div></div>`
+        const content = `<div class="content">` +
+        `<div class="marker-infoWindow-main"><div class="marker-infoWindow-title"><b>${memory.title}</b></div><img src="${image.src}" class="img"><div class="marker-infoWindow-message">${memory.text}</div></div><div class="marker-infoWindow-extra">Lat: ${memory.lat_coord}, Lng: ${memory.lng_coord}<br>`+
+        `Created on: ${memory.createdOn}<div id="removebutton"><button class="remover" onclick='removeGeoM("${memory.title}")'>Remove GeoM</button><button class="remover" onclick='updateGeoM("${memory.title}", "${memory.text}","${memory.img_src}","${memory.lat_coord}","${memory.lng_coord}")'> Edit GeoMemory</button><div></div></div>`
         const infoWindow = new google.maps.InfoWindow({
             content: content,
             arialabel: "test"
@@ -398,4 +398,5 @@ async function removeGeoM(title) {
 
 window.addEventListener("load", event => {
     updateMemoryList()
+    document.getElementById("marker-coords").checked = true;
 })
