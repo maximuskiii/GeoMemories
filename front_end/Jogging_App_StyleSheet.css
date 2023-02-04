@@ -1,3 +1,7 @@
+*{
+    font-family: Arial, Helvetica, sans-serif; 
+}
+
 body{
     height: 100%;
     width: 100%;
@@ -5,6 +9,35 @@ body{
     padding: 0;
     background-color: #80aaff;
     align-items: center;
+}
+
+.collapsible{
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 10px;
+    width: auto;
+    border-radius: 15px;
+    border-color: azure;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+}
+
+.active, .collapsible:hover{
+    background-color: #ccc;
+}
+
+.instruction-content{
+    padding: 10px;
+    margin: 5px;
+    border-radius: 15px;
+    width: auto;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
+    width: auto;
+    max-width: 450px;
 }
 
 .img{
@@ -17,9 +50,14 @@ body{
 }
 .remover{
     border-radius: 10px;
-    background-color: azure;
+    background-color: #eee;
     border-color: azure;
 }
+
+.active, .remover:hover{
+    background-color: #ccc;
+}
+
 .post-content{
     background-color: #b3ccff;
     border-radius: 15px;
@@ -40,6 +78,7 @@ body{
     flex-direction: row;
     margin-top: 5px;
 }
+
 #floatingPanel{
     position: absolute;
     top: 10px;
@@ -60,8 +99,12 @@ body{
     margin: 3px;
     border-radius: 10px;
     scale: 1;
-    background-color: azure;
+    background-color: #eee;
     border-color: azure;
+}
+
+.active, .hover-button:hover{
+    background-color: #ccc;
 }
 
 h2{
@@ -87,15 +130,29 @@ p{
     height: 350px;
 }
 
+#title-logo{
+    position: absolute;
+    left: 210px;
+    top: 7px;
+    border-radius: 15px;
+    background-color:#99bbff;
+    padding:10px;
+    font-size: x-large;
+}
+
 #box{
+    position: absolute; 
+    top: 8%;
+    left: 5px;
     border-radius: 15px;
     background-color: #99bbff;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     width: auto;
     height: auto;
     margin: 5px;
     padding: 5px;
+    max-width: 453px;
 }
 #display-image{
     background-color: #99bbff;
@@ -110,16 +167,19 @@ p{
     border-radius: 15px;
     background-color: #b3ccff;
     display: flex;
-    flex-direction: row;
-    width: 100%;
+    max-width: 450px;
+    flex-direction: column;
+    width: auto;
     height: auto;
     margin: 5px;
     padding: 10px;
     font-family: Arial, Helvetica, sans-serif;
     font-size: small;
+    word-wrap: break-word;
 }
 
 #form{
+    width: auto;
     display: flex;
     margin: 5px;
     padding: 10px;
@@ -192,6 +252,11 @@ p{
     justify-content: center;
     align-items: center;
     border-radius: 5px;
-    background-color: azure;
+    background-color: #eee;
     border-color: azure;
 }
+
+.active, .button:hover{
+    background-color: #ccc;
+}
+

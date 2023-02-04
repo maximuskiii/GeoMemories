@@ -17,6 +17,21 @@ var markerarray = [];
 var img_src = null;
 var marker_colors = ["#3333ff", "#cc00ff", "#00cc00", "#ff3300", "#9999ff", "#ff9999", "#00cc66", "#cc9900", "#339933", "#6600ff"];
 NodeList.prototype.indexOf = Array.prototype.indexOf
+var coll = document.getElementsByClassName("collapsible"); 
+var iterate; 
+
+for (iterate = 0; iterate < coll.length; iterate++) {
+    coll[iterate].addEventListener("click", function() {
+        this.classList.toggle("active");
+      var content1 = this.nextElementSibling;
+      if (content1.style.display === "block") {
+        content1.style.display = "none";
+      } else {
+        content1.style.display = "block";
+      }
+    });
+  }
+  
 
 const input = document.querySelector('input[type="file"]')
 input.addEventListener('change', (e) => {
@@ -25,7 +40,7 @@ input.addEventListener('change', (e) => {
     const reader = new FileReader()
     reader.onload = () => {
         img_src = reader.result
-        const app_img = `<b>Image Preview</b><img src="${img_src}" width="120" height="120" style="border-radius: 15px">`
+        const app_img = `<b>Image Preview</b><br><img src="${img_src}" width="150" height="150" style="border-radius: 15px">`
         //img.src = reader.result
         document.getElementById("display-image").innerHTML += app_img
     }
@@ -86,7 +101,7 @@ async function updateGeoM(title, message, temp_img_src, lat, lng) {
     let u_title = title;
     document.getElementById('title').value = title;
     document.getElementById('text-content').value = message;
-    const app_img2 = `<b>Image Preview</b><img src="${temp_img_src}" width="120" height="120" style="border-radius: 15px">`
+    const app_img2 = `<b>Image Preview</b><br><img src="${temp_img_src}" width="120" height="120" style="border-radius: 15px">`
     document.getElementById("display-image").innerHTML += app_img2
     document.querySelector("#editMemory").addEventListener("click", async e => {
         if(document.getElementById("marker-coords").checked == true) {
@@ -157,7 +172,7 @@ function initMap(position) {
     map = new google.maps.Map(document.getElementById("mapDiv"), {
         center: { lat: position.coords?.latitude , lng: position.coords?.longitude}, 
         zoom: 15,
-        disableDefaultUI: true
+        //disableDefaultUI: true
     });
     
     let marker2 = new google.maps.Marker({
@@ -294,7 +309,7 @@ async function updateMemoryList() {
         <div class="post-message"><p>${memory.text}</p></div>
         <p>Lat:${memory.lat_coord} Lng:${memory.lng_coord} <br>Created on: ${memory.createdOn}</p></div>
         <div class="buttonHolder2"><button class="remover" onclick='removeGeoM("${memory.title}")'> Remove GeoMemory</button>
-        <button class="remover" onclick='updateGeoM("${memory.title}", "${memory.text}","${memory.img_src}","${memory.lat_coord}","${memory.lng_coord}")'> Update GeoMemory</button></div>`
+        <button class="remover" onclick='updateGeoM("${memory.title}", "${memory.text}","${memory.img_src}","${memory.lat_coord}","${memory.lng_coord}")'> Edit GeoMemory</button></div>`
         console.log(div)
         flex_container.append(div)
     }
@@ -305,7 +320,7 @@ async function updateMemoryList() {
         image.src = memory.img_src
         const content = `<div id="content">` +
         `<b>${memory.title}</b><br><img src="${image.src}" class="img"><br>${memory.text}<br>Lat: ${memory.lat_coord}, Lng: ${memory.lng_coord}<br>`+
-        `Created on: ${memory.createdOn}<div id="removebutton"><button class="remover" onclick='removeGeoM("${memory.title}")'>Remove GeoM</button></div></div>`
+        `Created on: ${memory.createdOn}<div id="removebutton"><button class="remover" onclick='removeGeoM("${memory.title}")'>Remove GeoM</button><button class="remover" onclick='updateGeoM("${memory.title}", "${memory.text}","${memory.img_src}","${memory.lat_coord}","${memory.lng_coord}")'> Edit GeoMemory</button></div></div>`
         const infoWindow = new google.maps.InfoWindow({
             content: content,
             arialabel: "test"

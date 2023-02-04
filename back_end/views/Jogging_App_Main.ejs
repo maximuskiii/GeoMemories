@@ -13,6 +13,7 @@
                 <button class = "hover-button" id="center">Center</button> 
                 <button class = "hover-button" id="delAll">Delete All</button>
             </div>
+            <div id="title-logo"><b> GeoMemories App </b></div>
             <div id="form-box">
                 <div id="box">
                     <div id="form">
@@ -32,20 +33,29 @@
                                 <button class="button" id="editMemory">Apply Edits</button>
                             </div>
                             
-                        </div>
-                        <div id="display-image">
+                            </div>
+                            <div id="display-image">
                         </div>
                     </div>
                     <div id="instructions">
-                        <p>
-                            <b>Instructions</b><br>
-                                - The red marker is for creating a GeoMemory at a location other than your current location. <br>
-                                - It can be dragged around by holding and moving the cursor. Upon letting go it will be placed at the position.<br>
-                                - To use the coordinates of the red marker for a GeoMemory check the checkbox<br>
-                                - The blue marker represents your location (on startup, the red marker may be covering the blue marker)<br>
-                                - To add an image, click on choose file and select an image (These can only be in .png and .jpg file formats)<br>
-                                - The image will appear in the preview box and then will be added to the GeoMemory upon submitting<br>
-                        </p>
+                        <button type="button" class="collapsible"><b>Instructions</b></button>
+                        <div class="instruction-content"> 
+                            <p>
+                                <b>Instructions</b><br>
+                                This app is for storing memories (photos and text) at specific locations. Scroll down to find all the GeoMemories.<br><br>
+                                <b>Markers</b><br>
+                                The red marker is at your current location, you can use it to create a new GeoMemory somewhere other than your location by dragging it. 
+                                You will see a blue marker that is fixed which will represent your current location.<br><br>
+                                <b>Create a GeoMemory</b><br>
+                                In the submit form, if you check the box for "Use marker coordinates"
+                                The memory will be saved at the coordinate of the red marker, otehrwise it will be saved at the blue marker. Next, you can add a photo by clicking choose file. 
+                                In the prompt, select your photo - it has to be a .png or .jpg file format and of relatively small size - less than 1MB. 
+                                Once you have selected a photo it should appear in the preview box. Next, add a title and message and click Submit to create a GeoMemory.<br><br>
+                                <b>Edit GeoMemories</b><br>
+                                You can click the GeoMemory marker on the map to show the photo and details about the memory. Once you click the update memory button, the
+                                the contents of the memory will appear in the submit form. Edit them as required and click "Apply Edits" to save the changes to the memory in the database.
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div id="geoMList">
