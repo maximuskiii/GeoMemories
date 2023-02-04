@@ -1,1 +1,1 @@
-# JoggingApp-example 
+# A personal passion project - an app where you can store photos with a description at specific locations as GeoMemories. Uses the Google Maps JavaScript API, Node.js, Express, Mongoose, MongoDB, Nodemon, and npm.
