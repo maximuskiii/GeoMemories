@@ -1,6 +1,7 @@
 import { stringify } from "css";
 import  mongoose from "mongoose";
 
+//Creates the model for the JSON object that will be stored in the Database - defines the standard data item stored in the database.
 const Schema = mongoose.Schema;
 
 export const geolocationSchema = new Schema({

@@ -1,20 +1,10 @@
 'use strict';
 import { Db } from "../../config/db.js"
 import express from "express"
-import * as geoMemoryList from "../controller/geolocationController.js"
 
-// mention concurrency problem in criterion C, Add UML sequence diagram
+//Provides the standard routes over which requests can be processed by the server.
+//Filters the JSON requests by the type of DB Command and calls the commands while sending the appropriate data.
 export default function(app) {
-    app
-    .route("/geos")
-    .get(geoMemoryList.listGeoMemory)
-    .post(geoMemoryList.createNewGeoMemory)
-
-    app
-    .route("/geos/:id")
-    .put(geoMemoryList.updateGeoMemory)
-    .delete(geoMemoryList.deleteGeoMemory)
-    
     app
     .use(express.json())
     .get("/geos/server", async (req, res) => {

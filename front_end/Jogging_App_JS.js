@@ -1,9 +1,3 @@
-//watches location and repeats requests
-// let the user set their position with the cursor and make a memory there (essentially a memoy board)
-//test test te
-// maybe add marker array as the default marker addition/sorting system.
-//comment out previous solution temporarily
-//maybe fix aspect ratio things for images
 let map = null;
 let lat = null;
 let lng = null;
@@ -20,6 +14,7 @@ NodeList.prototype.indexOf = Array.prototype.indexOf
 var coll = document.getElementsByClassName("collapsible"); 
 var iterate; 
 
+//Is the onclick function for the How to create GeoMemories button, adds the collapsable animation.
 for (iterate = 0; iterate < coll.length; iterate++) {
     coll[iterate].addEventListener("click", function() {
         this.classList.toggle("active");
@@ -32,7 +27,7 @@ for (iterate = 0; iterate < coll.length; iterate++) {
     });
   }
   
-
+//Accepts and processes files to a base64 string to make them easily storable in a database.
 const input = document.querySelector('input[type="file"]')
 input.addEventListener('change', (e) => {
     document.getElementById("display-image").innerHTML = ""
@@ -47,56 +42,8 @@ input.addEventListener('change', (e) => {
     reader.readAsDataURL(input.files[0])
 })
 
-/* async function updateGeoM(title, message, img_src, temp_lat, temp_lng) {
-        var temp_img_src = img_src;
-        var temp_lat_coord = temp_lat;
-        var temp_lng_coord = temp_lng;
-        document.getElementById('title').value = title;
-        document.getElementById('text-content').value = message;
-        const result = await sendJson({
-            command: "del-one", 
-            title: title,
-        })
-        updateMemoryList()
-        var new_title_value = document.getElementById('title').value
-        var new_message_value = document.getElementById('text-content').value
-        //myLatLng = {lat: Number(temp_lat_coord), lng: Number(temp_lng_coord)}
-        //marker.setPosition(myLatLng);
-        document.querySelector('#editMemory').addEventListener('click', async e => {
-            if(document.getElementById("marker-coords").checked == true) {
-                getMarkerCoords()
-                console.log("using marker coords")
-                const result = await sendJson({
-                    command: "create-geom",
-                    title: new_title_value, 
-                    text: new_message_value,
-                    lat: marker_lat,
-                    lng: marker_lng,
-                    img_src: img_src,
-                })
-            } else {
-                console.log("using position coords")
-                console.log(lat, lng)
-                result = await sendJson({
-                    command: "create-geom",
-                    title: new_title_value, 
-                    text: new_message_value,
-                    lat: lat,
-                    lng: lng,
-                    img_src: img_src,
-                })
-                
-                marker.setPosition({
-                    lat: lat - 0.0001,
-                    lng: lng - 0.0001
-                })
-            }
-            updateMemoryList()
-            document.getElementById('title').value = '';
-            document.getElementById('text-content').value = ''
-        })
-} */ 
-
+//Allows the user to update a GeoMemory. Sets the current values to input fields to allow the user to change them, sets the current image.
+//Updates an existing memory, subject to the conditions picked by the user.
 async function updateGeoM(title, message, temp_img_src, lat, lng) {
     let u_title = title;
     document.getElementById('title').value = title;
@@ -128,16 +75,17 @@ async function updateGeoM(title, message, temp_img_src, lat, lng) {
             })
             updateMemoryList()
         }
-        
     })
 }
 
+//Gets the coordinates of the red marker
 function getMarkerCoords() {
     marker_lat = marker.getPosition().lat()
     marker_lng = marker.getPosition().lng()
     console.log(marker_lat, marker_lng)
 }
 
+//Checks whether the user has allowed the app to get their location, and gets their location if so, while pinging its callback functions whenever there is a change in location.
 function getLocation() {
     if(navigator.geolocation = Geolocation) {
        // navigator.geolocation.watchPosition(showPosition);
@@ -149,7 +97,7 @@ function getLocation() {
     }
 }
 
-//initializes the map object 
+//Updates the mapDiv with data on the users position any time there is a change in position to keep the map centered on the user.
 function updateMap(position) {
     getLocation();
     lat = position.coords.latitude;
@@ -163,11 +111,10 @@ function updateMap(position) {
     }
 }
 
+//Initializes the Google Map at the users initial position with the default markers and UI.
 function initMap(position) {
     updateMap(position);
     if (map !== null) return 
-
-    console.log("Running initmap");
 
     map = new google.maps.Map(document.getElementById("mapDiv"), {
         center: { lat: position.coords?.latitude , lng: position.coords?.longitude}, 
@@ -196,7 +143,7 @@ function initMap(position) {
     infoWindow.open(map);
 }
 
-// sendJSON method - used to send data to the router which can then make a db request.
+//Sends JSON data to the server router which can then make a db request and perform the according action on the database..
 async function sendJson(data) {
     const response = await window.fetch('http://localhost:5000/geos/server', {
         method: "POST",
@@ -208,7 +155,7 @@ async function sendJson(data) {
     return await response.json()
 }
 
-//gets the values from the form and clears the form
+//Gets the values from text input fields and resets their value for further use.
 function getValue() {
     titleValue = document.getElementById('title').value;
     messageValue = document.getElementById('text-content').value;
@@ -216,14 +163,11 @@ function getValue() {
     document.getElementById('text-content').value = '';
 }
 
-//button for adding a new memory, sends a post request
+//OnClick function for the submit memory button. Creates a new memory while adhering to specified conditions.
 document.querySelector('#submitMemory').addEventListener('click', async e => {
     getValue();
-    console.log(`${titleValue}, ${messageValue}`)
-    console.log("addData");
     if(document.getElementById("marker-coords").checked == true) {
         getMarkerCoords()
-        console.log("using marker coords")
         result = await sendJson({
             command: "create-geom",
             title: titleValue, 
@@ -233,8 +177,6 @@ document.querySelector('#submitMemory').addEventListener('click', async e => {
             img_src:img_src,
         })
     } else {
-        console.log("using position coords")
-        console.log(lat, lng)
         result = await sendJson({
             command: "create-geom",
             title: titleValue, 
@@ -253,16 +195,13 @@ document.querySelector('#submitMemory').addEventListener('click', async e => {
     img_src = null;
 })
 
-// ctrl k c
-// ctrl k u
-
-//gets and updates coordinate
+//Uses the geolocation API to record the users current location and set it to a global variable so it is accessible to the rest of the programme
 function getCoords(position){
     lat = `${position.coords.latitude}`
     lng = `${position.coords.longitude}`
 }
 
-//delete all data
+//OnClick function for the delete all button, clears the database of all GeoMemories, prepares the map for new data input
 document.querySelector('#delAll').addEventListener('click', async e => {
     console.log("delAll")
     const result = await sendJson({
@@ -272,7 +211,7 @@ document.querySelector('#delAll').addEventListener('click', async e => {
     getMarkerCoords()
 })
 
-//get Data
+//OnClick function for the center button, ensures type safety with Number
 document.querySelector('#center').addEventListener('click', async e => {
     console.log(Number(lat), Number(lng))
     map.setCenter({
@@ -282,10 +221,8 @@ document.querySelector('#center').addEventListener('click', async e => {
     map.setZoom(15);
 })
 
-function test(){
-    console.log("this is a test")
-}
-
+//Updates the UI to keep it in sync with the database, combats concurrency issues. Creates the Google Maps marker overlay.
+//Creates the GeoMemory database UI
 async function updateMemoryList() {
     for(let marker of markerarray) {
         marker.setMap(null)
@@ -304,7 +241,6 @@ async function updateMemoryList() {
         image.src = memory.img_src
         let div = document.createElement("div")
         div.classList.add('memory-post')
-        //const h1 =
         div.innerHTML += `<div class="post-title"><h2>${memory.title}</h2></div><div class="post-content"><img src="${image.src}" class="img">
         <div class="post-message"><p>${memory.text}</p></div>
         <p>Lat:${memory.lat_coord} Lng:${memory.lng_coord} <br>Created on: ${memory.createdOn}</p></div>
@@ -355,39 +291,9 @@ async function updateMemoryList() {
         document.getElementById('title').value = "";
         document.getElementById('text-content').value = "";
     }
-
-
-
-    /*for(let memory of memories) {
-        console.log(Number(memory.lat_coord))
-        const content = `<div id="content">` +
-        `${memory.title}<div id="removebutton"><button onclick='removeGeoM("${memory.title}")'>Remove GeoM</button></div></div>`
-        const infoWindow = new google.maps.InfoWindow({
-            content: content,
-            arialabel: "test"
-        })
-
-        const m1 = new google.maps.Marker({
-            title: memory.title,
-            position: {lat: Number(memory.lat_coord), lng: Number(memory.lng_coord)}, 
-            map: map, 
-            icon: {
-                url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
-            }
-        })
-
-        //marker.setPosition({lat: Number(memory.lat_coord) - 0.001, lng: Number(memory.lng_coord)-0.001})
-
-        m1.addListener("click", () => {
-            infoWindow.open({
-                anchor: m1,
-                map: map,
-            })
-        })
-    }*/
 }
 
-//function for removing an item from the client side list
+//Removes a specific GeoMemory from the list by filtering with the title.
 async function removeGeoM(title) {
     const result = await sendJson({
         command: "del-one",
@@ -396,6 +302,7 @@ async function removeGeoM(title) {
     updateMemoryList()
 }
 
+//Contains all the functions to be executed when the page is opened.
 window.addEventListener("load", event => {
     updateMemoryList()
     document.getElementById("marker-coords").checked = true;
