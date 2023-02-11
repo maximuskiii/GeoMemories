@@ -20,7 +20,7 @@ app.use(express.static(__dirname));
 
 //Creates a static endpoint through which the main page can be served.
 app.get('/',(req, res) => {
-    res.render("Jogging_App_Main.ejs")
+    res.render("GeoMemories_Main.ejs")
 })
 
 //Allows the server to listen to traffic coming in through the chosen port.

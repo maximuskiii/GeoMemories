@@ -27,7 +27,7 @@ export class Db {
      const geom1 = new GeoM({"title": title, "text": text, "lat_coord": lat, "lng_coord": lng, "img_src": img_src})
      console.log(geom1)
      await geom1.save()
-     return true 
+     return true; 
    }
    
    //Deletes all GeoMemories by filtering all that are GeoMemories

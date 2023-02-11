@@ -9,7 +9,7 @@ let marker_lng = null;
 let result = null; 
 var markerarray = [];
 var img_src = null;
-var marker_colors = ["#3333ff", "#cc00ff", "#00cc00", "#ff3300", "#9999ff", "#ff9999", "#00cc66", "#cc9900", "#339933", "#6600ff"];
+var marker_colors = ["#3333ff", "#cc00ff", "#00cc00", "#ff3300", "#9999ff", "#ff9999", "#00cc66", "#cc9900", "#339933", "#6600ff", "#ff99cc", "#cc9900", "#00ff00"];
 NodeList.prototype.indexOf = Array.prototype.indexOf
 var coll = document.getElementsByClassName("collapsible"); 
 var iterate; 
@@ -87,13 +87,12 @@ function getMarkerCoords() {
 
 //Checks whether the user has allowed the app to get their location, and gets their location if so, while pinging its callback functions whenever there is a change in location.
 function getLocation() {
-    if(navigator.geolocation = Geolocation) {
-       // navigator.geolocation.watchPosition(showPosition);
+    if(navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(initMap);
         navigator.geolocation.getCurrentPosition(getCoords);
         console.log("getlocation works");
     } else {
-        console.log("Geoloocation is not supported");
+        console.log("Geolocation is not supported");
     }
 }
 
@@ -166,6 +165,7 @@ function getValue() {
 //OnClick function for the submit memory button. Creates a new memory while adhering to specified conditions.
 document.querySelector('#submitMemory').addEventListener('click', async e => {
     getValue();
+    console.log("POST Request Sent")
     if(document.getElementById("marker-coords").checked == true) {
         getMarkerCoords()
         result = await sendJson({
@@ -239,6 +239,14 @@ async function updateMemoryList() {
     for(let memory of memories) {
         let image = new Image()
         image.src = memory.img_src
+        const content = `<div class="content">` +
+        `<div class="marker-infoWindow-main"><div class="marker-infoWindow-title"><b>${memory.title}</b></div><img src="${image.src}" class="img"><div class="marker-infoWindow-message">${memory.text}</div></div><div class="marker-infoWindow-extra">Lat: ${memory.lat_coord}, Lng: ${memory.lng_coord}<br>`+
+        `Created on: ${memory.createdOn}<div id="removebutton"><button class="remover" onclick='removeGeoM("${memory.title}")'>Remove GeoM</button><button class="remover" onclick='updateGeoM("${memory.title}", "${memory.text}","${memory.img_src}","${memory.lat_coord}","${memory.lng_coord}")'> Edit GeoMemory</button><div></div></div>`
+        const infoWindow = new google.maps.InfoWindow({
+            content: content,
+            arialabel: "test"
+        })
+        console.log(memories.indexOf(memory))
         let div = document.createElement("div")
         div.classList.add('memory-post')
         div.innerHTML += `<div class="post-title"><h2>${memory.title}</h2></div><div class="post-content"><img src="${image.src}" class="img">
@@ -248,20 +256,7 @@ async function updateMemoryList() {
         <button class="remover" onclick='updateGeoM("${memory.title}", "${memory.text}","${memory.img_src}","${memory.lat_coord}","${memory.lng_coord}")'> Edit GeoMemory</button></div>`
         console.log(div)
         flex_container.append(div)
-    }
-
-    for(let memory of memories) {
         console.log(Number(memory.lat_coord))
-        let image = new Image()
-        image.src = memory.img_src
-        const content = `<div class="content">` +
-        `<div class="marker-infoWindow-main"><div class="marker-infoWindow-title"><b>${memory.title}</b></div><img src="${image.src}" class="img"><div class="marker-infoWindow-message">${memory.text}</div></div><div class="marker-infoWindow-extra">Lat: ${memory.lat_coord}, Lng: ${memory.lng_coord}<br>`+
-        `Created on: ${memory.createdOn}<div id="removebutton"><button class="remover" onclick='removeGeoM("${memory.title}")'>Remove GeoM</button><button class="remover" onclick='updateGeoM("${memory.title}", "${memory.text}","${memory.img_src}","${memory.lat_coord}","${memory.lng_coord}")'> Edit GeoMemory</button><div></div></div>`
-        const infoWindow = new google.maps.InfoWindow({
-            content: content,
-            arialabel: "test"
-        })
-        console.log(memories.indexOf(memory))
 
         markerarray[memories.indexOf(memory)] = new google.maps.Marker({
             title: memory.title,
