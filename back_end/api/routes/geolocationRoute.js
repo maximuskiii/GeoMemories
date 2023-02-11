@@ -16,7 +16,6 @@ export default function(app) {
         db.connect()
         if (data.command == "create-geom") {
             await db.createGeoM(data.title, data.text, data.lat, data.lng, data.img_src)
-            console.log(data.text, data.img_src)
             res.send('"UPDATE OK FROM SERVER"')
         } else if (data.command == "get-all-data") {
             const result = await db.findGeoM()
